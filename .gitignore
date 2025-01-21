@@ -1,0 +1,25 @@
+# Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environments
+.venv/
+env/
+
+# IDE configurations
+.vscode/
+
+# macOS Files
+.DS_Store
+
+# Docker-related files
+*.log
+*.pid
+*.seed
+*.pid.lock
+node_modules/
+docker-compose.override.yml
+
+# Sensitive configuration files
+.env
