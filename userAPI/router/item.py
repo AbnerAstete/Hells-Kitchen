@@ -1,14 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.security import HTTPBasic
 
 
 from sqlalchemy.orm import Session
-from database.database import SessionLocal
-from database.database import engine
-from database import crud
-from model import item
 
-from database.crud import *
+from database.database import engine, get_db
+from database import crud
+from model import model
+from schemas import schemas
 
 import httpx
 import os
@@ -16,15 +15,7 @@ import os
 
 item_router = APIRouter()
 security = HTTPBasic()
-item.Base.metadata.create_all(bind=engine)
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+model.Base.metadata.create_all(bind=engine)
 
 
 @item_router.post("/items/", response_model=schemas.Item)
