@@ -19,7 +19,7 @@ services:
     volumes:
       - ./userAPI:/app
     environment:
-      - DB_CONN=${DB_CONN_USERAPI}
+      - DB_CONN=${DB_CONN}
     depends_on:
       - postgres
   pgadmin:
