@@ -1,16 +1,30 @@
 from sqlalchemy.orm import Session
+
 from model import model
+from model.model import User
+
 from schemas import schemas
 
-def get_item(db: Session, item_id: int):
-    return db.query(model.Item).filter(model.Item.id == item_id).first()
+from utils.utils import pwd_context
 
-def get_items(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(model.Item).offset(skip).limit(limit).all()
+from  datetime import datetime
 
-def create_item(db: Session, item: schemas.ItemCreate):
-    db_item = model.Item(name=item.name, description=item.description)
-    db.add(db_item)
+
+def create(user: schemas.User, db: Session):
+    current_date_time = datetime.now()
+    hashed_password = pwd_context.hash(user.hashed_password) 
+    user = User(    username=user.username,
+                    email=user.email,
+                    created_at=current_date_time,
+                    disabled = False, 
+                    hashed_password=hashed_password)
+    db.add(user)
     db.commit()
-    db.refresh(db_item)
-    return db_item
+    db.refresh(user)
+    return user
+
+def find_by_email(db: Session, email:str):
+    return db.query(User).filter(User.email==email).first()
+
+def find_by_username(db: Session, username:str):
+    return db.query(User).filter(User.username==username).first()

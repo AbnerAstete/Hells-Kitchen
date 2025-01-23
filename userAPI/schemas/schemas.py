@@ -1,14 +1,13 @@
 from pydantic import BaseModel
 
-class ItemBase(BaseModel):
-    name: str
-    description: str
+class User(BaseModel):
+    username: str
+    email: str | None = None
+    hashed_password: str
 
-class ItemCreate(ItemBase):
-    pass
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
-class Item(ItemBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class TokenData(BaseModel):
+    username: str | None = None
