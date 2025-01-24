@@ -21,6 +21,19 @@ services:
       - ./userAPI/.env
     depends_on:
       - postgres
+  recipeAPI:
+    build:
+      context: .
+      dockerfile: ./recipeAPI/Dockerfile 
+    image: recipeapi:latest
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./recipeAPI:/app
+    env_file:
+      - ./recipeAPI/.env
+    depends_on:
+      - postgres
   pgadmin:
     image: dpage/pgadmin4
     env_file:
